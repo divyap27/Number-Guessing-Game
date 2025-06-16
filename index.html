@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Guess The Number</title>
+</head>
+<body>
+    <div class="game-container">
+    <h1>Number Guessing Game</h1>
+    <p>Try to guess the number I'm thinking of between 1 and 100.</p>
+    <input type="number" id="guessInput" placeholder="Enter the number you think" />
+    <button id="guessButton">Guess</button>
+    <button id="resetBtn">🔁 Reset Game</button>
+    <div id="message"></div>
+    <div id="attempts"></div>
+    </div>
+    <script>
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        console.log("Secret Number is:", secretNumber);
+
+let attempts = 0;
+let gameOver = false;
+
+document.getElementById("guessButton").addEventListener("click", function() {
+  if (gameOver) return; 
+
+  let userGuess = Number(document.getElementById("guessInput").value);
+  let message = "";
+
+  attempts++;
+
+  if (userGuess > secretNumber) {
+    message = "📈 Too high";
+  } else if (userGuess < secretNumber) {
+    message = "📉 Too low";
+  } else {
+    message = "🎉 Yay! You guessed it perfectly!";
+    gameOver = true;
+  }
+
+  if (attempts >= 10 && userGuess !== secretNumber) {
+    message = `💀 Game Over! The number was ${secretNumber}`;
+    gameOver = true;
+  }
+
+  const messageBox = document.getElementById("message");
+
+
+messageBox.classList.remove("flash-red", "flash-blue", "flash-green");
+
+if (userGuess > secretNumber) {
+  message = "📈 Too high";
+  messageBox.classList.add("flash-red");
+} else if (userGuess < secretNumber) {
+  message = "📉 Too low";
+  messageBox.classList.add("flash-blue");
+} else {
+  message = "🎉 Yay! You guessed it perfectly!";
+  messageBox.classList.add("flash-green");
+}
+
+if (attempts >= 10 && userGuess !== secretNumber) {
+  message = `💀 Game Over! The number was ${secretNumber}`;
+  gameOver = true;
+}
+
+messageBox.textContent = message;
+document.getElementById("attempts").textContent = "Attempts: " + attempts;
+
+  document.getElementById("attempts").textContent = "Attempts: " + attempts;
+});
+
+document.getElementById("resetBtn").addEventListener("click", function() {
+  secretNumber = Math.floor(Math.random() * 100) + 1;
+  attempts = 0;
+  gameOver = false;
+
+  document.getElementById("guessInput").value = "";
+  document.getElementById("message").textContent = "";
+  document.getElementById("attempts").textContent = "";
+});
+
+    </script>
+    
+</body>
+</html>
